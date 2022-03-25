@@ -1,1 +1,0 @@
-test("ExampleTest",()=>{expect(()=>{return 1+1;}).toBe(2)});
