@@ -1,18 +1,18 @@
 {
-    "scripts": {
-      "test": "jest"
-    },
-    "devDependencies": {
-      "jest": "^27.5.1"
-    },
-    "name": "Tests",
-    "version": "1.0.0",
-    "description": "Testing",
-    "main": "Tests.js",
-    "dependencies": {},
-    "keywords": [
-      "Test"
-    ],
-    "author": "",
-    "license": "ISC"
-  }
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^27.5.1"
+  },
+  "name": "Tests",
+  "version": "1.0.0",
+  "description": "Testing",
+  "main": "Tests.js",
+  "dependencies": {},
+  "keywords": [
+    "Test"
+  ],
+  "author": "",
+  "license": "ISC"
+}
