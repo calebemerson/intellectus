@@ -1,11 +1,17 @@
 function doGet(e) {
-  if(e.parameter["page"] == "Test1")
+  var page = e.parameters["page"];
+  if(page == "StudentPage")
   {
-    return HtmlService.createHtmlOutputFromFile("Test1")
+    return HtmlService.createHtmlOutputFromFile("StudentPage")
   }
-  else if (e.parameter["page"] == "Test2")
+  else if(page == "HomePage")
   {
-    return HtmlService.createHtmlOutputFromFile("Test2")
+    return HtmlService.createHtmlOutputFromFile("HomePage")
   }
-  return ContentService.createTextOutput("Hello World");
+  return HtmlService.createHtmlOutputFromFile("StudentPage");
+}
+
+function addStudent(student)
+{
+  
 }

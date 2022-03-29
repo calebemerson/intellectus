@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+
+  <button id="toggle" class="box" onclick="Swap()">Swap</button>
+  <button id="back" class="return" onclick="redirect('HomePage')">Home Page</button>
+
+  
+  <script>
+    var x = false;
+    function Swap() {
+      if (!x) {
+        document.getElementById('lit').style.display = 'none';
+        document.getElementById('notLit').style.display = 'block';
+      }
+      else {
+        document.getElementById('lit').style.display = 'block';
+        document.getElementById('notLit').style.display = 'none';
+      }
+      x = !x;
+    }
+    function redirect(page)
+    {
+      window.open("https://script.google.com/macros/s/AKfycbxOKLMEtisSWZIyvV45MBCeesFrv-k-y4HgC4GVvBs/dev?page="+page,"_top");
+    }
+  </script>
+
+    <style>
+
+      .box{
+        position: absolute;
+        top: 200px;
+        left: 700px;
+        height: 240px;
+        width: 140px;
+        z-index: 5;
+        opacity: 0;
+      }
+      .dim{
+        position: absolute;
+        top: 201px;
+        left: 701px;
+        display: none;
+      }
+      .itsLit{
+        position: absolute;
+        top: 200px;
+        left: 700px;
+      }
+
+    </style>
+    
+    <img id="notLit" class="dim" src="https://drive.google.com/uc?export=download&id=19bAigyrUzBwic6DGBB3IyorekddGvtcq" align="left">
+    <img id="lit" class="itsLit" src="https://drive.google.com/uc?export=download&id=1ERBPnxeNBzatnOEfHWKI-ze_mH8JEkhq" align="left">
+    If you do not understand, let your professor know by switching the lightbulb off!
+
+  </body>
+</html>
