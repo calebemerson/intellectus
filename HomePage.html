@@ -2,8 +2,33 @@
 <html>
   <head>
     <base target="_top">
+    <h2 style="position: absolute; top: 325px; left: 700px; font-size: 40px">Are you a student or a teacher?</h2>
   </head>
   <body>
-    Hello2
+    <style>
+    
+      .stu{
+        position: absolute;
+        top: 425px;
+        left: 700px;
+        height: 100px;
+        width: 200px;
+      }
+      .teach{
+        position: absolute;
+        top: 425px;
+        left: 950px;
+        height: 100px;
+        width: 200px;
+      }
+    </style>
+    <button id="student" class="stu" onclick="redirect('StudentPage')">Student</button>
+    <button id="teacher" class="teach" onclick="redirect('TeacherPage')">Teacher</button>
   </body>
+  <script>
+    function redirect(page)
+    {
+      window.open("https://script.google.com/macros/s/AKfycbxOKLMEtisSWZIyvV45MBCeesFrv-k-y4HgC4GVvBs/dev?page="+page,"_top");
+    }
+  </script>
 </html>
