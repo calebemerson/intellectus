@@ -10,17 +10,17 @@
 
   
   <script>
-    var x = false;
+    var understand = true;
     function Swap() {
-      if (!x) {
-        document.getElementById('lit').style.display = 'none';
-        document.getElementById('notLit').style.display = 'block';
-      }
-      else {
+      if (understand) {
         document.getElementById('lit').style.display = 'block';
         document.getElementById('notLit').style.display = 'none';
       }
-      x = !x;
+      else {
+        document.getElementById('lit').style.display = 'none';
+        document.getElementById('notLit').style.display = 'block';
+      }
+      understand = !understand;
     }
     function redirect(page)
     {
