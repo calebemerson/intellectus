@@ -33,12 +33,18 @@
     <input type="number"  id="classId" name="name" required
        min="1" max="9999999999" size="10" style="display: none;">
       <br>
-    <button id="submit" type="submit" style="display: none;" class="submit" onclick="submit()">Submit</button>
+    <input type="submit" id="submit" name="Submit" style="display: none;">
+
     <p id = "errorText" style="color:red;display: none;">The inputted RoomID does not exist</p>
     </form>
 
   </body>
   <script>
+    document.getElementById("form").addEventListener("submit",function(e)
+    {
+      e.preventDefault();
+      submit();
+    })
 
     function submit()
     {

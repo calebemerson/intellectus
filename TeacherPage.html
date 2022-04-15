@@ -6,10 +6,10 @@
   <body>
     <form id = "form" onsubmit="teacherSubmit()">
     <label id="classidtext" for="ClassID">ClassID:</label><br>
-    <input type="number" placeholder="123456789" title="Input expects 1-10 digits" id="classid" name="ClassID" min="1" max="9999999999"><br><br>
+    <input type="number" placeholder="123456789" title="Input expects 1-10 digits" required id="classid" name="ClassID" min="1" max="9999999999"><br><br>
 
     <label id="alertthresholdtext" for="AlertThreshold">Alert Threshold:</label><br>
-    <input type="number" placeholder="50" title="Input expects value as percentage between 1-100 (do not include %)" id="alertthreshold" name="AlertThreshold" min="1" max="100"><br><br>
+    <input type="number" placeholder="50" title="Input expects value as percentage between 1-100 (do not include %)" id="alertthreshold" name="AlertThreshold" required min="1" max="100"><br><br>
 
     <input type="submit" id="submit" name="Submit" ><br><br>
 
@@ -23,10 +23,16 @@
   </body>
 
   <script>
+
+    var classID;
+    var alertThreshold
+
     document.getElementById("form").addEventListener("submit",function(e)
     {
       e.preventDefault();
       teacherSubmit();
+      classID = document.getElementById("classid").value;
+      alertThreshold = document.getElementById("alertthreshold").value;
     })
     function teacherSubmit()
     {
@@ -36,8 +42,22 @@
       document.getElementById('alertthreshold').style.display = 'none';  
       document.getElementById('alertthresholdtext').style.display = 'none';
       document.getElementById('green').style.display = 'block';
-      document.getElementById('red').style.display = 'block';
+      document.getElementById('red').style.display = 'none';
+      setInterval(function(){
+          google.script.run.withSuccessHandler().classStatistics(room)
 
+      })
+    }
+    }
+    function green()
+    {
+      document.getElementById('green').style.display = 'block';
+      document.getElementById('red').style.display = 'none';
+    }
+    function red()
+    {
+      document.getElementById('green').style.display = 'none';
+      document.getElementById('red').style.display = 'block';
     }
   </script>
 </html>
