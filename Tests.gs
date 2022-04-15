@@ -6,6 +6,7 @@ function tests()
   //sumTest();
   addStudentTest();
   makeAndRemoveRoomTest();
+  sanitizerTest();
 };
 
 
@@ -65,11 +66,28 @@ function makeAndRemoveRoomTest()
   });
   
   var removedStats = classStatistics("abc123")
-      QUnit.test("Test Room Removal", assert => {
+    QUnit.test("Test Room Removal", assert => {
     assert.equal(classStatistics("abc123"), "Error\nNo Room exists with that Room number");
+    Utilities.sleep(1000);
     assert.equal(removeRoom("abc1234"),true);
     assert.equal(removeRoom("abc1234"),false);
   });
-  
+}
+function sanitizerTest()
+{
+    QUnit.test("Input Sanitation Test", assert => {
+    assert.equal(inputSanitation("abc123","roomName"), true );
+    assert.equal(inputSanitation("sandwich1","roomName"), true );
+    assert.equal(inputSanitation("asdf1234QWER","roomName"), false );
+    assert.equal(inputSanitation("!;","roomName"), false );
+    assert.equal(inputSanitation("!a;","roomName"), false );
+  });
+
+    QUnit.test("Function Sanitation Test", assert => {
+    assert.equal(classStatistics("[]<>;"), "Error\nBad room name" );
+    assert.equal(makeRoom("[]<>;"), false );
+    assert.equal(removeRoom("[]<>;"), false );
+    assert.equal(addStudent("[]<>;"), "Error\nBad room name");
+  });
 }
 

@@ -3,24 +3,71 @@
   <head>
     <base target="_top">
   </head>
-  <body>
-
-  <button id="toggle" class="box" onclick="Swap()">Swap</button>
-  <button id="back" class="return" onclick="redirect('HomePage')">Home Page</button>
-
+  <body style="color:black; background-color:#FAF3DC;">
   
+  <div id = "window" style= "display:none">
+  <!--<button id="toggle" class="box" onclick="Swap()">Swap</button>-->
+  <button id="back" class="return"  onclick="redirect('HomePage')">Home Page</button>
+  <img id="notLit" class="dim" onclick="Swap()" style = "display:inherit; width:100px;height:100px; display:none" src="https://i.imgur.com/nCfVQti.png" align="left">
+  <img id="lit" class="itsLit" onclick="Swap()" style = "display:inherit; width:100px;height:100px" src="https://i.imgur.com/agcKnTQ.png" align="left">
+  <p id = "text">If you do not understand, let your professor know by switching the lightbulb off!<p>
+  <p id = "debug"></p>
+  </div>
+
   <script>
+    var classID;
+    var onCooldown = false;
+
+    //Before closing, remove the student from the database
+    window.addEventListener('beforeunload', function (e) 
+    {
+      // Cancel the event
+      //e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
+      // Chrome requires returnValue to be set
+      //e.returnValue = '';
+      google.script.run.removeStudent(classID,understand);
+
+    }); 
+
+
+    google.script.url.getLocation(function(location) {
+      classID = location.parameter["ClassID"];
+      google.script.run.withSuccessHandler((text)=>
+      {
+        document.getElementById("window").style.display = "block";
+      }).addStudent(classID);
+      /*google.script.run.withFailureHandler((text)=>
+      {
+        document.getElementById("window").style.display = "block";
+      }).addStudent(classID);*/
+
+    });
     var understand = true;
+
     function Swap() {
+      if(onCooldown)
+      {
+        return;
+      }
+      //onCooldown = true;
+      //Toggles are only allowed after a 5 second cooldown
+      setTimeout(function()
+      {
+        onCooldown = false;
+      }, 5000);
+
+      understand = !understand;
       if (understand) {
         document.getElementById('lit').style.display = 'block';
         document.getElementById('notLit').style.display = 'none';
+        google.script.run.changeClassStats(classID,true);
       }
       else {
         document.getElementById('lit').style.display = 'none';
         document.getElementById('notLit').style.display = 'block';
+        google.script.run.changeClassStats(classID,false);
       }
-      understand = !understand;
+      
     }
     function redirect(page)
     {
@@ -41,21 +88,23 @@
       }
       .dim{
         position: absolute;
-        top: 201px;
-        left: 701px;
+        top: 200px;
+        left: 700px;
+        width: 100px
+        height: 100px
         display: none;
       }
       .itsLit{
         position: absolute;
         top: 200px;
         left: 700px;
+        width: 300px
+        height: 300px
       }
 
     </style>
-    
-    <img id="notLit" class="dim" src="https://drive.google.com/uc?export=download&id=19bAigyrUzBwic6DGBB3IyorekddGvtcq" align="left">
-    <img id="lit" class="itsLit" src="https://drive.google.com/uc?export=download&id=1ERBPnxeNBzatnOEfHWKI-ze_mH8JEkhq" align="left">
-    If you do not understand, let your professor know by switching the lightbulb off!
+
+
 
   </body>
 </html>

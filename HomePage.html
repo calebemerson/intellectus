@@ -2,9 +2,9 @@
 <html>
   <head>
     <base target="_top">
-    <h2 style="position:relative: top: 10vw; left: 10vw; font-size: 5vw">Are you a student or a teacher?</h2>
+    <h2 id="heading" style="position:relative: top: 10vw; left: 75vw; font-size: 5vw; color: black;">Are you a student or a teacher?</h2>
   </head>
-  <body>
+  <body style="background-color:#FAF3DC;" id = "parent">
     <style>
     
       .stu{
@@ -13,19 +13,85 @@
         left: 55vw;
         height: 10vw;
         width: 15vw;
+        
       }
       .teach{
+        
         position: relative;
         top: 25vh;
         left: 25vw;
         height: 10vw;
         width: 15vw;
       }
+
     </style>
-    <button id="student" class="stu" onclick="redirect('StudentPage')">Student</button>
+    <form id = "form" onsubmit="submit()">
+    <button id="student" class="stu" onclick="inputPopup('true')">Student</button>
     <button id="teacher" class="teach" onclick="redirect('TeacherPage')">Teacher</button>
+    <label id="label" style="display: none;" for="ClassId">What is your class ID? </label>
+
+    <input type="number"  id="classId" name="name" required
+       min="1" max="9999999999" size="10" style="display: none;">
+      <br>
+    <button id="submit" type="submit" style="display: none;" class="submit" onclick="submit()">Submit</button>
+    <p id = "errorText" style="color:red;display: none;">The inputted RoomID does not exist</p>
+    </form>
+
   </body>
   <script>
+
+    function submit()
+    {
+      var val = document.getElementById('classId').value;
+      document.getElementById('classId').disabled = true;
+      document.getElementById('errorText').style.display = "none";
+      if(val.length > 0){
+        google.script.run.withSuccessHandler((isValid)=>
+        {
+          if(isValid)
+          {
+            window.open("https://script.google.com/macros/s/AKfycbxOKLMEtisSWZIyvV45MBCeesFrv-k-y4HgC4GVvBs/dev?page=StudentPage&ClassID="+document.getElementById('classId').value,"_top");
+          }
+          else
+          {
+            document.getElementById('errorText').style.display = "block";
+          }
+          document.getElementById('classId').disabled = false;
+        }).isRoom(val);
+      }
+      else
+      {
+        document.getElementById('errorText').style.display = "block";
+        document.getElementById('classId').disabled = false;
+      }
+    }
+
+    function inputPopup(roomInput)
+    {
+      var main;
+      var input;
+      if(roomInput)
+      {
+        main = 'none';
+        input = 'block';
+      }
+      else
+      {
+        main = 'block';
+        input = 'none';
+      }
+      document.getElementById("teacher").disabled = true;
+      document.getElementById('heading').style.display = main;
+      document.getElementById('student').style.display = main;
+      document.getElementById('teacher').style.display = main;
+      document.getElementById('label').style.display = input;
+      document.getElementById('classId').style.display = input;
+      document.getElementById('submit').style.display = input;
+
+    }
+
+
+  
     function redirect(page)
     {
       window.open("https://script.google.com/macros/s/AKfycbxOKLMEtisSWZIyvV45MBCeesFrv-k-y4HgC4GVvBs/dev?page="+page,"_top");
