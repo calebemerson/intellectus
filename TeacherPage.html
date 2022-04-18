@@ -3,6 +3,7 @@
   <head>
     <base target="_top">
   </head>
+  <h2 id="percentage" style="display: none"> Class Understanding Percentage:</h2>
   <body>
     <form id = "form" onsubmit="teacherSubmit()">
     <label id="classidtext" for="ClassID">ClassID:</label><br>
@@ -43,12 +44,27 @@
       document.getElementById('alertthresholdtext').style.display = 'none';
       document.getElementById('green').style.display = 'block';
       document.getElementById('red').style.display = 'none';
-      setInterval(function(){
-          google.script.run.withSuccessHandler().classStatistics(room)
+      document.getElementById('percentage').style.display = 'block';
+      google.script.run.withSuccessHandler(function(fullString)
+      { 
+        var fullStringArray = fullString.split(',');
+        var understand = Number(fullStringArray[0]);
+        var total = Number(fullStringArray[1]);
+        document.getElementById("percentage").innerHTML = "Class Understanding Percentage: " + 100*(understand/total);
+      }).classStatistics(classID)
+      setInterval(function()
+      {
+          google.script.run.withSuccessHandler(function(fullString)
+          { 
+            var fullStringArray = fullString.split(',');
+            var understand = Number(fullStringArray[0]);
+            var total = Number(fullStringArray[1]);
+            document.getElementById("percentage").innerHTML = "Class Understanding Percentage: " + 100*(understand/total);
+          }).classStatistics(classID)
 
-      })
+      },5000)
     }
-    }
+    
     function green()
     {
       document.getElementById('green').style.display = 'block';
