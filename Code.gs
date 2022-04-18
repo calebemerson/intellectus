@@ -134,6 +134,10 @@ function changeClassStats(room,understand)
   return true;
 }
 
+function test()
+{
+  makeRoom(12345);
+}
 /**
  * Returns true if the room is a valid room name and it is not already in the database, otherwise false;
  */
@@ -146,7 +150,7 @@ function makeRoom(candidateRoom)
 
   var sheet = getSheet();
   var cellRange = getRange(candidateRoom);
-
+  var thing = null;
   if(cellRange === null)
   {
     sheet.appendRow([candidateRoom,0,0]);

@@ -5,20 +5,24 @@
   </head>
   <h2 id="percentage" style="display: none"> Class Understanding Percentage:</h2>
   <body>
-    <form id = "form" onsubmit="teacherSubmit()">
+    <form id = "form">
     <label id="classidtext" for="ClassID">ClassID:</label><br>
     <input type="number" placeholder="123456789" title="Input expects 1-10 digits" required id="classid" name="ClassID" min="1" max="9999999999"><br><br>
 
-    <label id="alertthresholdtext" for="AlertThreshold">Alert Threshold:</label><br>
+    <label id="alertthresholdtext" for="AlertThreshold">Understanding Alert Threshold:</label><br>
     <input type="number" placeholder="50" title="Input expects value as percentage between 1-100 (do not include %)" id="alertthreshold" name="AlertThreshold" required min="1" max="100"><br><br>
 
     <input type="submit" id="submit" name="Submit" ><br><br>
-
+    <p id = "error" style="display:none">Submitted Id is already in Use</p>
     </form>
 
 
     <img id="green" class="dim" src="https://i.imgur.com/cfblNd1.png" align="left" style="position: relative; left: 10vw; top: 10vh; display: none; z-index= 3;">
     <img id="red" class="itsLit" src="https://i.imgur.com/DIivC4p.png" align="left" style="position: relative; left: 10vw; top: 10vh; display: none; z-index = 1;">
+
+    <audio id = "sound">
+      <source src="https://drive.google.com/uc?export=download&id=1XM1oWB8Usaav_bml_vcWvstHTMu1x-jU" type="audio/mpeg">
+    </audio>
 
     
   </body>
@@ -27,39 +31,94 @@
 
     var classID;
     var alertThreshold
+    var hasAlerted = false;
+    document.getElementById('sound').loop = false;
 
     document.getElementById("form").addEventListener("submit",function(e)
     {
       e.preventDefault();
-      teacherSubmit();
       classID = document.getElementById("classid").value;
       alertThreshold = document.getElementById("alertthreshold").value;
+      sumbitTest();
     })
+
+    window.addEventListener('beforeunload', function (e) 
+    {
+      // Cancel the event
+      //e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
+      // Chrome requires returnValue to be set
+      //e.returnValue = '';
+      google.script.run.removeRoom(class)
+
+    }); 
+
+    function sumbitTest()
+    {
+      document.getElementById("error").style.display = "none";
+      
+      document.getElementById("classid").disabled = true;
+      document.getElementById("submit").disabled = true;
+      document.getElementById("alertthreshold").disabled = true;
+      google.script.run.withSuccessHandler(
+        function(success)
+        {
+          document.getElementById("classid").disabled = false;
+          document.getElementById("submit").disabled = false;
+          document.getElementById("alertthreshold").disabled = false;
+          if(success)
+          {
+            teacherSubmit();
+          }
+          else
+          {
+              document.getElementById("error").style.display = "block";
+          }
+        }
+      ).makeRoom(classID);
+    }
     function teacherSubmit()
     {
       document.getElementById("submit").style.display = "none";
       document.getElementById('classid').style.display = 'none';
       document.getElementById('classidtext').style.display = 'none';
       document.getElementById('alertthreshold').style.display = 'none';  
-      document.getElementById('alertthresholdtext').style.display = 'none';
+      document.getElementById('alertthresholdtext').innerHTML = 'Understanding Alert Threshold:'+ alertThreshold;
       document.getElementById('green').style.display = 'block';
       document.getElementById('red').style.display = 'none';
       document.getElementById('percentage').style.display = 'block';
+
       google.script.run.withSuccessHandler(function(fullString)
       { 
         var fullStringArray = fullString.split(',');
         var understand = Number(fullStringArray[0]);
         var total = Number(fullStringArray[1]);
-        document.getElementById("percentage").innerHTML = "Class Understanding Percentage: " + 100*(understand/total);
+        document.getElementById("percentage").innerHTML = "Class Understanding Percentage: " + Math.trunc(100*(understand/total)) + "%";
       }).classStatistics(classID)
       setInterval(function()
       {
+        
           google.script.run.withSuccessHandler(function(fullString)
           { 
             var fullStringArray = fullString.split(',');
             var understand = Number(fullStringArray[0]);
             var total = Number(fullStringArray[1]);
-            document.getElementById("percentage").innerHTML = "Class Understanding Percentage: " + 100*(understand/total);
+            document.getElementById("percentage").innerHTML = "Class Understanding Percentage: " + Math.trunc(100*(understand/total)) + "%";
+            if ((understand/total) < (alertThreshold/100))
+            {              
+              document.getElementById('green').style.display = 'none';
+              document.getElementById('red').style.display = 'block';
+              if(!hasAlerted){
+                document.getElementById('sound').play();
+                hasAlerted = true;
+              }         
+            }
+            else
+            {
+              document.getElementById('green').style.display = 'block';
+              document.getElementById('red').style.display = 'none';
+              hasAlerted = false;
+            }
+           
           }).classStatistics(classID)
 
       },5000)
