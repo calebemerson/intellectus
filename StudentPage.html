@@ -10,7 +10,8 @@
   <button id="back" class="return"  onclick="redirect('HomePage')">Home Page</button>
   <img id="notLit" class="dim" onclick="Swap()" style = "display:inherit; width:100px;height:100px; display:none" src="https://i.imgur.com/nCfVQti.png" align="left">
   <img id="lit" class="itsLit" onclick="Swap()" style = "display:inherit; width:100px;height:100px" src="https://i.imgur.com/agcKnTQ.png" align="left">
-  <p id = "text">If you do not understand, let your professor know by switching the lightbulb off!<p>
+  <p id = "text">If you do not understand, let your professor know by switching the lightbulb off!<p><br>
+  <p id = "classidstudentpage">ClassID: <p>
   <p id = "debug"></p>
   </div>
 
@@ -32,6 +33,7 @@
 
     google.script.url.getLocation(function(location) {
       classID = location.parameter["ClassID"];
+      document.getElementById("classidstudentpage").innerHTML = "ClassID: " + classID;
       google.script.run.withSuccessHandler((text)=>
       {
         document.getElementById("window").style.display = "block";
@@ -49,7 +51,7 @@
       {
         return;
       }
-      //onCooldown = true;
+      onCooldown = true;
       //Toggles are only allowed after a 5 second cooldown
       setTimeout(function()
       {

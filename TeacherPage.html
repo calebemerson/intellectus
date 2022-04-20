@@ -48,7 +48,7 @@
       //e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
       // Chrome requires returnValue to be set
       //e.returnValue = '';
-      google.script.run.removeRoom(class)
+      //google.script.run.removeRoom(class)
 
     }); 
 
@@ -82,7 +82,8 @@
       document.getElementById('classid').style.display = 'none';
       document.getElementById('classidtext').style.display = 'none';
       document.getElementById('alertthreshold').style.display = 'none';  
-      document.getElementById('alertthresholdtext').innerHTML = 'Understanding Alert Threshold:'+ alertThreshold;
+      document.getElementById('alertthresholdtext').innerHTML = "Understanding Alert Threshold:" + alertThreshold + 
+      "%";
       document.getElementById('green').style.display = 'block';
       document.getElementById('red').style.display = 'none';
       document.getElementById('percentage').style.display = 'block';
